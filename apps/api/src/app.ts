@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import { pool } from './db/pool';
+import { authRouter } from './routes/auth.routes';
+import { errorHandler, notFound } from './middleware/errors';
 
 export const app = express();
 
@@ -19,3 +21,8 @@ app.get('/api/health/db', async (_req, res) => {
     status: 'ok',
     dbTime: result.rows[0].now });
 });
+
+app.use('/api/auth', authRouter);
+
+app.use(notFound);
+app.use(errorHandler);
