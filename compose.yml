@@ -1,0 +1,35 @@
+services:
+  db: #los datos se guardan en el volumen pgdata, no se pierden al apagar los contenedores
+    image: postgres:17
+    environment:
+      POSTGRES_USER: mentormatch
+      POSTGRES_PASSWORD: mentormatch
+      POSTGRES_DB: mentormatch
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck: #hace que el API espere a que la base de datos esté lista antes de arrancar
+      test: ["CMD-SHELL", "pg_isready -U mentormatch -d mentormatch"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: ./apps/api
+      target: dev
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./apps/api/.env
+    environment:
+      DATABASE_URL: postgresql://mentormatch:mentormatch@db:5432/mentormatch
+    volumes:
+      - ./apps/api/src:/app/src #monta src dentro del contenedor
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
