@@ -1,12 +1,11 @@
 <script setup lang="ts">
-definePageMeta({ middleware: "auth" });
-
 type Student = { id: number; full_name: string; email: string; created_at: string };
 
 const api = useApi();
-const { data: students, error, status } = await useAsyncData("students", () =>
-  api<Student[]>("/api/users", { query: { role: "STUDENT" } })
-);
+const { data: students, error, status } = await useAsyncData("students", async () => {
+  const res = await api<{ data: Student[] }>("/api/users", { query: { role: "STUDENT" } });
+  return res.data;
+});
 </script>
 
 <template>

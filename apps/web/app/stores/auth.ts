@@ -32,7 +32,11 @@ export const useAuthStore = defineStore("auth", () => {
     await $fetch("/api/auth/register", {
       baseURL: config.public.apiBase,
       method: "POST",
-      body: payload,
+      body: {
+        full_name: payload.fullName,
+        email: payload.email,
+        password: payload.password,
+      },
     });
   }
 
