@@ -7,9 +7,9 @@ async function submit() {
   error.value = "";
   try {
     await auth.login(form.email, form.password);
-    await navigateTo("/admin/alumnos");
+    await navigateTo("/");
   } catch (e: any) {
-    error.value = e?.data?.message ?? "Credenciales incorrectas";
+    error.value = e?.data?.error?.message ?? e?.message ?? "Credenciales inválidas";
   }
 }
 </script>

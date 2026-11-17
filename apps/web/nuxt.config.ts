@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@pinia/nuxt"],
   css: ["~/assets/css/main.css"],
-  devServer: { port: 3002 },
+  devServer: { port: 3000 },
   runtimeConfig: {
     public: { apiBase: "http://localhost:3001" },
   },
