@@ -13,16 +13,28 @@ async function submit() {
   }
 }
 </script>
-
 <template>
-  <main class="mx-auto max-w-sm p-6">
-    <h1 class="mb-4 text-2xl font-bold">Iniciar sesión</h1>
-    <form class="space-y-3" @submit.prevent="submit">
-      <input v-model="form.email" type="email" placeholder="Correo" class="w-full rounded border p-2" required />
-      <input v-model="form.password" type="password" placeholder="Contraseña" class="w-full rounded border p-2" required />
-      <p v-if="error" class="text-red-600">{{ error }}</p>
-      <button class="w-full rounded bg-blue-600 p-2 text-white">Entrar</button>
-    </form>
-    <NuxtLink to="/registro" class="mt-4 block text-sm text-blue-700">Crear cuenta</NuxtLink>
-  </main>
+  <div class="grid min-h-screen lg:grid-cols-2">
+    <!-- Panel -->
+    <AuthBrandPanel />
+
+    <!-- Formulario -->
+    <main class="flex items-center justify-center p-6">
+      <div class="w-full max-w-md rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+        <h1 class="text-2xl font-bold">Bienvenido de nuevo</h1>
+        <p class="mt-1 text-sm text-muted">Ingresa a tu cuenta para gestionar tus asesorías.</p>
+
+        <form class="mt-6 space-y-4" @submit.prevent="onSubmit">
+          <BaseInput v-model="form.email" label="Correo" type="email" />
+          <BaseInput v-model="form.password" label="Contraseña" type="password" />
+          <BaseButton>Iniciar sesión</BaseButton>
+        </form>
+
+        <p class="mt-6 text-center text-sm text-muted">
+          ¿Aún no tienes cuenta?
+          <NuxtLink to="/registro" class="font-semibold text-brand-600">Regístrate</NuxtLink>
+        </p>
+      </div>
+    </main>
+  </div>
 </template>
